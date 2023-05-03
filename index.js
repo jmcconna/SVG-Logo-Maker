@@ -41,6 +41,13 @@ const questions = [
         type: 'input',
         message: 'What color would you like for the logo? Enter a color keyword or hexadecimal number.',
         name: 'logoColor',
+        validate: async (input) => {
+            if (input && validateColor(input)) {
+               return true;
+            }
+            console.log("\nPlease try again. Enter a valid HTML color.");
+            return false;
+         } 
     },
   ];
 
