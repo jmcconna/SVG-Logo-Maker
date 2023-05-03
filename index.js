@@ -2,6 +2,7 @@ const inquirer = require('inquirer'); //include inquirer package
 const fs = require("fs"); //include the file system package
 const {Shape, Circle, Triangle, Square} = require("./lib/shapes");
 const { listenerRemoved } = require('emittery');
+const validateColor = require("validate-color").default;
 let shapeText = "";
 
 const questions = [
@@ -13,6 +14,7 @@ const questions = [
         if (input && input.length <=3) {
            return true;
         }
+        console.log("\nPlease try again. Enter 1-3 characters.");
         return false;
      }
     },
@@ -20,6 +22,13 @@ const questions = [
       type: 'input',
       message: 'What color would you like for the text? Enter a color keyword or hexadecimal number.',
       name: 'textColor',
+      validate: async (input) => {
+        if (input && validateColor(input)) {
+           return true;
+        }
+        console.log("\nPlease try again. Enter a valid HTML color.");
+        return false;
+     } 
     },
     //choose a shape
     {
@@ -37,14 +46,12 @@ const questions = [
 
 //Create a function to write SVG file
 function writeToFile(fileName, data) {
-    console.log(data.shape);
     let logoShape = "";
     switch(data.shape[0]) {
         case "Circle":
             //call circle constructor
             logoShape = new Circle(data.logoColor);
             shapeText = logoShape.render();
-            console.log("making a circle");
             break;
 
         case "Triangle":
@@ -59,8 +66,6 @@ function writeToFile(fileName, data) {
             shapeText = logoShape.render();
             break;
     }
-
-    console.log("Shape text:" + shapeText);
 
     const svgText =
         `<svg version="1.1"
