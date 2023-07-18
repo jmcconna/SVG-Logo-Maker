@@ -32,5 +32,3 @@ The MIT License
 ## Questions
 Message me on Github: jmcconna
 
-
-Shoot me an email: jbmcconnaughey@gmail.com
